@@ -18,7 +18,7 @@ This project demonstrates how to implement **JWT (JSON Web Token) Authentication
 - .NET Dependency Injection
 
 ## 📁 Project Structure
-
+```
 JWT-Authentication-in-.NET-Core-Web-API/
 │
 ├── Controllers/
@@ -31,7 +31,7 @@ JWT-Authentication-in-.NET-Core-Web-API/
 ├── Program.cs
 ├── appsettings.json
 └── README.md
-
+```
 ## 🔐 How JWT Authentication Works
 
 1. User sends credentials to `/api/Auth/Login`.
