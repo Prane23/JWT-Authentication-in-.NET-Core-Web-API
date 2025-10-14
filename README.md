@@ -18,6 +18,19 @@ This project demonstrates how to implement **JWT (JSON Web Token) Authentication
 - .NET Dependency Injection
 
 ## 📁 Project Structure
+```plaintext
+JWT-Authentication-in-.NET-Core-Web-API/
+│
+├── Controllers/
+│   └── AuthController.cs
+│   └── MyRequestController.cs
+│
+├── Models/
+│   └── LoginInfo.cs
+│
+├── Program.cs
+├── appsettings.json
+└── README.md
 
 JWT-Authentication-in-.NET-Core-Web-API/
 │
