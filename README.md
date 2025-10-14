@@ -32,19 +32,6 @@ JWT-Authentication-in-.NET-Core-Web-API/
 ├── appsettings.json
 └── README.md
 
-JWT-Authentication-in-.NET-Core-Web-API/
-│
-├── Controllers/
-│   └── AuthController.cs
-│   └── MyRequestController.cs
-│
-├── Models/
-│   └── LoginInfo.cs
-│
-├── Program.cs
-├── appsettings.json
-└── README.md
-
 ## 🔐 How JWT Authentication Works
 
 1. User sends credentials to `/api/Auth/Login`.
