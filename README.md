@@ -11,7 +11,7 @@ This project demonstrates how to implement **JWT (JSON Web Token) Authentication
 
 ## 🔧 Technologies Used
 
-- ASP.NET Core 8
+- ASP.NET 10
 - C#
 - Swagger (Swashbuckle)
 - JWT Bearer Authentication
@@ -27,6 +27,9 @@ JWT-Authentication-in-.NET-Core-Web-API/
 │
 ├── Models/
 │   └── LoginInfo.cs
+│
+├── Service/
+│   └── JwtService.cs
 │
 ├── Program.cs
 ├── appsettings.json
@@ -52,7 +55,8 @@ Update `appsettings.json` with your JWT settings:Ideally read this from Azure ke
 
 ```json
 "Jwt": {
-"Key": "your_super_secret_key_here",
-"Issuer": "yourIssuer",
-"Audience": "yourAudience"
+  "Key": "My_Super_Authentication_Super_Secreatkey",
+  "Issuer": "myjwt_issuer",
+  "Audience": "myjwt_audience",
+  "Expires": 5
 }
