@@ -1,8 +1,16 @@
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NET_Core_Web_API.Config;
+using NET_Core_Web_API.Service;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+builder.Services.AddScoped<JwtService>();
+
+var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
+
 builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", option =>
 {
     option.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
@@ -11,12 +19,13 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", option =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey=true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        ValidIssuer = jwtOptions.Issuer,
+        ValidAudience = jwtOptions.Audience,
+        ClockSkew = TimeSpan.Zero,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key))
 
     };
-    option.RequireHttpsMetadata = true;
+    option.RequireHttpsMetadata = false;// foe development only, in production should be true
 });
 
 // Add services to the container.
@@ -65,6 +74,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

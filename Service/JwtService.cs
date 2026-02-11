@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using NET_Core_Web_API.Config;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -8,16 +10,16 @@ namespace NET_Core_Web_API.Service
 {
     public class JwtService
     {
-        private readonly IConfiguration _configuration;
+        private readonly JwtOptions _jwtOptions;
 
-        public JwtService(IConfiguration configuration)
+        public JwtService(IOptions<JwtOptions> jwtOptions)
         {
-            _configuration = configuration;
+            _jwtOptions = jwtOptions.Value;
         }
 
         public string GenerateToken(string username)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
@@ -27,10 +29,10 @@ namespace NET_Core_Web_API.Service
             };
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
+                issuer: _jwtOptions.Issuer,
+                audience: _jwtOptions.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(30),
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtOptions.Expires)),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
