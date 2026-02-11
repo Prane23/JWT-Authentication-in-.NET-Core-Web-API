@@ -1,6 +1,7 @@
 # JWT Authentication in .NET Core Web API
 
 This project demonstrates how to implement **JWT (JSON Web Token) Authentication** in an ASP.NET Core Web API. It includes secure endpoints, token generation, and Swagger integration for testing.
+It also shows how to protect API endpoints using [Authorize], and test everything through Swagger UI.
 
 ## 🚀 Features
 
@@ -60,3 +61,14 @@ Update `appsettings.json` with your JWT settings:Ideally read this from Azure ke
   "Audience": "myjwt_audience",
   "Expires": 5
 }
+```
+## 🔧 Token Generation Logic (JwtService)
+The project includes a dedicated service that generates JWTs:
+
+1. Signs token with HMAC-SHA256
+2. Adds standard claims (sub, jti)
+3. Supports configurable expiration time
+---
+🙌 Author  
+**Prashant**  
+Authentication | Jwt token | .NET | API Security | Backend Development
