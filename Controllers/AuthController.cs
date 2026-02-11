@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using NET_Core_Web_API.Config;
 using NET_Core_Web_API.Model;
 using NET_Core_Web_API.Service;
 
@@ -10,13 +12,11 @@ namespace NET_Core_Web_API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        private readonly JwtService jwtService;
+        private readonly JwtService _JwtService;
 
-        public AuthController(IConfiguration configuration)
+        public AuthController(JwtService JwtService)
         {
-            _configuration=configuration;
-            jwtService =  new JwtService(configuration);
+            _JwtService = JwtService;
         }
 
         [HttpPost("Login")]
@@ -24,11 +24,17 @@ namespace NET_Core_Web_API.Controllers
         {
             if (loginInfo.Username == "Admin" && loginInfo.Password == "Password")
             {
-                var token = jwtService.GenerateToken(loginInfo.Username);
+                var token = _JwtService.GenerateToken(loginInfo.Username);
                 return Ok(new { Token = token });
             }
-            return Unauthorized();
+
+            return Unauthorized(new
+            {
+                error = "Invalid username or password",
+                code = 401
+            });
+
         }
-       
+
     }
 }

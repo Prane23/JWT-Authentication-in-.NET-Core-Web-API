@@ -12,7 +12,23 @@ namespace NET_Core_Web_API.Controllers
         [HttpGet("GetMySecureData")]
         public IActionResult GetMySecureData()
         {
-            return Ok("this is a My Secured data");
+
+            // If token is missing or invalid, ASP.NET Core automatically sends 401
+            if (!User.Identity?.IsAuthenticated ?? false)
+            {
+                return Unauthorized(new
+                {
+                    error = "Invalid or missing JWT token",
+                    code = 401
+                });
+            }
+
+            return Ok(new
+            {
+                message = "This is secured data",
+                status = 200
+            });
+
         }
     }
 }
